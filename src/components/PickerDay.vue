@@ -112,25 +112,17 @@ export default {
       }
       return days
     },
-    /**
-     * Gets the name of the month the current page is on
-     * @return {String}
-     */
     currMonthName () {
       const monthName = this.fullMonthName ? this.translation.months : this.translation.monthsAbbr
       return this.utils.getMonthNameAbbr(this.utils.getMonth(this.pageDate), monthName)
     },
-    /**
-     * Gets the name of the year that current page is on
-     * @return {Number}
-     */
     currYearName () {
       const yearSuffix = this.translation.yearSuffix
       return `${this.utils.getFullYear(this.pageDate)}${yearSuffix}`
     },
     /**
      * Is this translation using year/month/day format?
-     * @return {Boolean}
+     * returns boolean
      */
     isYmd () {
       return this.translation.ymd && this.translation.ymd === true
@@ -146,7 +138,6 @@ export default {
     },
     /**
      * Is the right hand navigation button disabled?
-     * @return {Boolean}
      */
     isRightNavDisabled () {
       return this.isRtl
@@ -163,7 +154,7 @@ export default {
       this.$emit('selectDate', date)
     },
     /**
-     * @return {Number}
+     * returns number
      */
     getPageMonth () {
       return this.utils.getMonth(this.pageDate)
@@ -174,10 +165,6 @@ export default {
     showMonthCalendar () {
       this.$emit('showMonthCalendar')
     },
-    /**
-     * Change the page month
-     * @param {Number} incrementBy
-     */
     changeMonth (incrementBy) {
       let date = this.pageDate
       this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
@@ -191,10 +178,6 @@ export default {
         this.changeMonth(-1)
       }
     },
-    /**
-     * Is the previous month disabled?
-     * @return {Boolean}
-     */
     isPreviousMonthDisabled () {
       if (!this.disabledDates || !this.disabledDates.to) {
         return false
@@ -203,18 +186,11 @@ export default {
       return this.utils.getMonth(this.disabledDates.to) >= this.utils.getMonth(d) &&
         this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(d)
     },
-    /**
-     * Increment the current page month
-     */
     nextMonth () {
       if (!this.isNextMonthDisabled()) {
         this.changeMonth(+1)
       }
     },
-    /**
-     * Is the next month disabled?
-     * @return {Boolean}
-     */
     isNextMonthDisabled () {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
@@ -223,19 +199,10 @@ export default {
       return this.utils.getMonth(this.disabledDates.from) <= this.utils.getMonth(d) &&
         this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(d)
     },
-    /**
-     * Whether a day is selected
-     * @param {Date}
-     * @return {Boolean}
-     */
     isSelectedDate (dObj) {
       return this.selectedDate && this.utils.compareDates(this.selectedDate, dObj)
     },
-    /**
-     * Whether a day is disabled
-     * @param {Date}
-     * @return {Boolean}
-     */
+    /* WORK IN PROGRESS */
     isDisabledDate (date) {
       let disabledDates = false
 
@@ -278,11 +245,6 @@ export default {
       }
       return disabledDates
     },
-    /**
-     * Whether a day is highlighted (only if it is not disabled already except when highlighted.includeDisabled is true)
-     * @param {Date}
-     * @return {Boolean}
-     */
     isHighlightedDate (date) {
       if (!(this.highlighted && this.highlighted.includeDisabled) && this.isDisabledDate(date)) {
         return false
@@ -301,10 +263,6 @@ export default {
             return true
           }
         })
-      }
-
-      if (this.isDefined(this.highlighted.from) && this.isDefined(this.highlighted.to)) {
-        highlighted = date >= this.highlighted.from && date <= this.highlighted.to
       }
 
       if (typeof this.highlighted.days !== 'undefined' && this.highlighted.days.indexOf(this.utils.getDay(date)) !== -1) {
@@ -348,10 +306,7 @@ export default {
         (this.utils.getDate(this.highlighted.from) === this.utils.getDate(date))
     },
     /**
-     * Whether a day is highlighted and it is the first date
-     * in the highlighted range of dates
-     * @param {Date}
-     * @return {Boolean}
+     * returns boolean
      */
     isHighlightEnd (date) {
       return this.isHighlightedDate(date) &&
@@ -360,14 +315,6 @@ export default {
         (this.utils.getMonth(this.highlighted.to) === this.utils.getMonth(date)) &&
         (this.utils.getDate(this.highlighted.to) === this.utils.getDate(date))
     },
-    /**
-     * Helper
-     * @param  {mixed}  prop
-     * @return {Boolean}
-     */
-    isDefined (prop) {
-      return typeof prop !== 'undefined' && prop
-    }
   }
 }
 // eslint-disable-next-line
