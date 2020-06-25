@@ -58,7 +58,7 @@ export default {
   computed: {
     /**
      * Returns an array of day names
-     * @return {String[]}
+     * returns string
      */
     daysOfWeek () {
       if (this.mondayFirst) {
@@ -71,7 +71,7 @@ export default {
     /**
      * Returns the day number of the week less one for the first of the current month
      * Used to show amount of empty cells before the first in the day calendar layout
-     * @return {Number}
+     * returns number
      */
     blankDays () {
       const d = this.pageDate
@@ -127,18 +127,11 @@ export default {
     isYmd () {
       return this.translation.ymd && this.translation.ymd === true
     },
-    /**
-     * Is the left hand navigation button disabled?
-     * @return {Boolean}
-     */
     isLeftNavDisabled () {
       return this.isRtl
         ? this.isNextMonthDisabled(this.pageTimestamp)
         : this.isPreviousMonthDisabled(this.pageTimestamp)
     },
-    /**
-     * Is the right hand navigation button disabled?
-     */
     isRightNavDisabled () {
       return this.isRtl
         ? this.isPreviousMonthDisabled(this.pageTimestamp)
@@ -159,9 +152,6 @@ export default {
     getPageMonth () {
       return this.utils.getMonth(this.pageDate)
     },
-    /**
-     * Emit an event to show the month picker
-     */
     showMonthCalendar () {
       this.$emit('showMonthCalendar')
     },
@@ -170,9 +160,6 @@ export default {
       this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
       this.$emit('changedMonth', date)
     },
-    /**
-     * Decrement the page month
-     */
     previousMonth () {
       if (!this.isPreviousMonthDisabled()) {
         this.changeMonth(-1)

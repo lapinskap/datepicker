@@ -34,13 +34,6 @@
     <picker-day
       v-if="allowedToShowView('day')"
       :pageDate="pageDate"
-      :selectedDate="selectedDate"
-      :showDayView="showDayView"
-      :fullMonthName="fullMonthName"
-      :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
-      :high`ighted="highlighted"
-      :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
       :pageTimestamp="pageTimestamp"
@@ -48,6 +41,13 @@
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
+      :selectedDate="selectedDate"
+      :showDayView="showDayView"
+      :fullMonthName="fullMonthName"
+      :allowedToShowView="allowedToShowView"
+      :disabledDates="disabledDates"
+      :high`ighted="highlighted"
+      :calendarClass="calendarClass"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
@@ -59,13 +59,13 @@
     <picker-month
       v-if="allowedToShowView('month')"
       :pageDate="pageDate"
+      :calendarClass="calendarClass"
+      :calendarStyle="calendarStyle"
+      :translation="translation"
       :selectedDate="selectedDate"
       :showMonthView="showMonthView"
       :allowedToShowView="allowedToShowView"
       :disabledDates="disabledDates"
-      :calendarClass="calendarClass"
-      :calendarStyle="calendarStyle"
-      :translation="translation"
       :isRtl="isRtl"
       :use-utc="useUtc"
       @selectMonth="selectMonth"
@@ -78,12 +78,12 @@
     <picker-year
       v-if="allowedToShowView('year')"
       :pageDate="pageDate"
-      :selectedDate="selectedDate"
-      :showYearView="showYearView"
-      :allowedToShowView="allowedToShowView"
       :disabledDates="disabledDates"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
+      :selectedDate="selectedDate"
+      :showYearView="showYearView"
+      :allowedToShowView="allowedToShowView"
       :translation="translation"
       :isRtl="isRtl"
       :use-utc="useUtc"
@@ -242,7 +242,7 @@ export default {
     },
     /**
      * Effectively a toggle to show/hide the calendar
-     * @return {mixed}
+     * return {mixed}
      */
     showCalendar () {
       if (this.disabled || this.isInline) {
@@ -275,8 +275,6 @@ export default {
     },
     /**
      * Are we allowed to show a specific picker view?
-     * @param {String} view
-     * @return {Boolean}
      */
     allowedToShowView (view) {
       const views = ['day', 'month', 'year']
@@ -300,7 +298,6 @@ export default {
     },
     /**
      * Show the month picker
-     * @return {Boolean}
      */
     showMonthCalendar () {
       if (!this.allowedToShowView('month')) {
@@ -312,7 +309,6 @@ export default {
     },
     /**
      * Show the year picker
-     * @return {Boolean}
      */
     showYearCalendar () {
       if (!this.allowedToShowView('year')) {
@@ -324,7 +320,7 @@ export default {
     },
     /**
      * Set the selected date
-     * @param {Number} timestamp
+     * param: {Number} timestamp
      */
     setDate (timestamp) {
       const date = new Date(timestamp)
@@ -343,9 +339,6 @@ export default {
       this.$emit('input', null)
       this.$emit('cleared')
     },
-    /**
-     * @param {Object} date
-     */
     selectDate (date) {
       this.setDate(date.timestamp)
       if (!this.isInline) {
@@ -353,15 +346,9 @@ export default {
       }
       this.resetTypedDate = new Date()
     },
-    /**
-     * @param {Object} date
-     */
     selectDisabledDate (date) {
       this.$emit('selectedDisabled', date)
     },
-    /**
-     * @param {Object} month
-     */
     selectMonth (month) {
       const date = new Date(month.timestamp)
       if (this.allowedToShowView('day')) {
@@ -372,9 +359,6 @@ export default {
         this.selectDate(month)
       }
     },
-    /**
-     * @param {Object} year
-     */
     selectYear (year) {
       const date = new Date(year.timestamp)
       if (this.allowedToShowView('month')) {
@@ -387,7 +371,7 @@ export default {
     },
     /**
      * Set the datepicker value
-     * @param {Date|String|Number|null} date
+     * param: {Date|String|Number|null} date
      */
     setValue (date) {
       if (typeof date === 'string' || typeof date === 'number') {
@@ -415,22 +399,15 @@ export default {
       }
       this.pageTimestamp = this.utils.setDate(new Date(date), 1)
     },
-    /**
-     * Handles a month change from the day picker
-     */
     handleChangedMonthFromDayPicker (date) {
       this.setPageDate(date)
       this.$emit('changedMonth', date)
     },
-    /**
-     * Set the date from a typedDate event
-     */
     setTypedDate (date) {
       this.setDate(date.getTime())
     },
     /**
      * Close all calendar layers
-     * @param {Boolean} emitEvent - emit close event
      */
     close (emitEvent) {
       this.showDayView = this.showMonthView = this.showYearView = false
