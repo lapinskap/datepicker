@@ -56,28 +56,17 @@ export default {
       }
       return years
     },
-    /**
-     * @return {String}
-     */
     getPageDecade () {
       const decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
       const decadeEnd = decadeStart + 9
       const yearSuffix = this.translation.yearSuffix
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`
     },
-    /**
-     * Is the left hand navigation button disabled?
-     * @return {Boolean}
-     */
     isLeftNavDisabled () {
       return this.isRtl
         ? this.isNextDecadeDisabled(this.pageTimestamp)
         : this.isPreviousDecadeDisabled(this.pageTimestamp)
     },
-    /**
-     * Is the right hand navigation button disabled?
-     * @return {Boolean}
-     */
     isRightNavDisabled () {
       return this.isRtl
         ? this.isPreviousDecadeDisabled(this.pageTimestamp)
@@ -130,33 +119,11 @@ export default {
       const firstYearInNextPage = Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
       return disabledYear < firstYearInNextPage
     },
-
-    /**
-     * Whether the selected date is in this year
-     * @param {Date}
-     * @return {Boolean}
-     */
     isSelectedYear (date) {
       return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date)
     },
-    /**
-     * Whether a year is disabled
-     * @param {Date}
-     * @return {Boolean}
-     */
     isDisabledYear (date) {
       let disabledDates = false
-
-      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
-        if (this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
-          disabledDates = true
-        }
-      }
-      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
-        if (this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
-          disabledDates = true
-        }
-      }
 
       if (typeof this.disabledDates === 'undefined' || !this.disabledDates) {
         return false
@@ -166,6 +133,17 @@ export default {
         disabledDates = true
       }
 
+      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
+        if (this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
+          disabledDates = true
+        }
+      }
+
+      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
+        if (this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
+          disabledDates = true
+        }
+      }
       return disabledDates
     }
   }
