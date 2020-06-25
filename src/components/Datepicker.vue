@@ -46,7 +46,7 @@
       :fullMonthName="fullMonthName"
       :allowedToShowView="allowedToShowView"
       :disabledDates="disabledDates"
-      :high`ighted="highlighted"
+      :highlighted="highlighted"
       :calendarClass="calendarClass"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
