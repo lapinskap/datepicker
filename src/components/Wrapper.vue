@@ -1,20 +1,17 @@
 <template>
 <div>
-    <div class="example">
-      <h3>With minimum and maximum date range</h3>
-      <datepicker :disabledDates="disabledDates"></datepicker>
-      <code>
-        &lt;datepicker :disabledDates="disabledDates"&gt;&lt;/datepicker&gt;
-      </code>
+    <div class="col-sm-12">
+      <h3>Datepicker made with vue.js</h3>
+      <Datepicker :disabledDates="disabledDates"></Datepicker>
       <div class="settings">
         <h5>Settings</h5>
         <div class="form-group">
           <label>Disabled to:</label>
-          <datepicker v-on:selected="disableTo"></datepicker>
+          <Datepicker v-on:selected="disableTo"></Datepicker>
         </div>
         <div class="form-group">
           <label>Disabled from:</label>
-          <datepicker v-on:selected="disableFrom"></datepicker>
+          <Datepicker v-on:selected="disableFrom"></Datepicker>
         </div>
         <div class="form-group">
           <label>Disabled Days of Month:</label>
@@ -22,35 +19,24 @@
         </div>
         <pre>disabledDates: {{ disabledDates }}</pre>
 
-        <h5>Resulting Date picker</h5>
-        <datepicker :disabledDates="disabledDates"></datepicker>
+        <h5>Date picker + disabled dates using disabledDates</h5>
+        <Datepicker :disabledDates="disabledDates"></Datepicker>
       </div>
     </div>
 
     <div class="example">
-      <div class="settings">
-        <h5>Settings</h5>
-        <div class="form-group">
-          <label>Disabled Function:</label>
-        </div>
-        <pre>
-          disabledDates: {
-            customPredictor: function (date) {
-              // disables every day of a month which is a multiple of 3
-              if (date.getDate() % 3 === 0) {
-                return true
-              }
-            }
-          }
-        </pre>
-        <h5>Resulting Date picker</h5>
-        <datepicker :disabledDates="disabledFn"></datepicker>
-      </div>
+    <h5>Date picker + disabled dates using disabledFn</h5>
+        <Datepicker :disabledDates="disabledFn"></Datepicker>
     </div>
 </div>
 </template>
 <script>
+import Datepicker from './Datepicker.vue'
+
 export default {
+  components: {
+    Datepicker
+  },
   data() {
     return {
       format: "d MMMM yyyy",
@@ -95,6 +81,12 @@ export default {
         };
       }
       this.disabledDates.from = val;
+    },
+    setDisabledDays(elem) {
+      if (elem.target.value === "undefined") {
+        return;
+      }
+      this.disabledDates = elem.target.value;
     },
     openPicker() {
       this.$refs.programaticOpen.showCalendar();
